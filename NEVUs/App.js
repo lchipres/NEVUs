@@ -6,7 +6,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>{outputText}</Text>
-      <Button title="Change Text" onPress={() => setOutputText('Puto el que lo lea')} />
+      <Button title="Change Text" onPress={() => setOutputText('Puto el que lo lea, pero no tiene nada de malo')} />
     </View>
   );
 }
