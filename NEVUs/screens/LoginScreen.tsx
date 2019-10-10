@@ -2,7 +2,6 @@ import * as React from "react";
 import { StyleSheet, Text, View, ImageBackground, Image } from "react-native";
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
-import Background from '../assets/images/bak.webp';
 import strings from "../config/strings";
 
 interface State {
