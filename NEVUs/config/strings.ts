@@ -1,9 +1,10 @@
 const strings = {
-    LOGIN: "Log In",
-    EMAIL_PLACEHOLDER: "EMAIL",
-    PASSWORD_PLACEHOLDER: "PASSWORD",
+    LOGIN: "Iniciar sesión",
+    EMAIL_PLACEHOLDER: "Correo@",
+    PASSWORD_PLACEHOLDER: "Contraseña",
     EMAIL_REQUIERED: "Ingrese su correo",
-    PASSWORD_REQUIERED: "Ingrese contraseña"
+    PASSWORD_REQUIERED: "Ingrese contraseña",
+    REGISTER:"Registrate"
 };
 
 export default strings;
