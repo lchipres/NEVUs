@@ -1,19 +1,26 @@
 import * as React from "react";
-import { StyleSheet, Text, View, ImageBackground, Image } from "react-native";
+import { StyleSheet, View, Image,KeyboardAvoidingView } from "react-native";
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
-import Background from '../assets/images/bak.webp';
 import strings from "../config/strings";
+import constants from "../config/constants";
 
 interface State {
   email: string;
   password: String;
+  emailTouched: boolean;
+  passwordTouched: boolean;
 }
 
 class LoginScreen extends React.Component<{ }, State> {
+  
+  passwordInputRef= React.createRef<FormTextInput>();
+  
   readonly state: State = {
     email: "",
-    password:""
+    password:"",
+    emailTouched:false,
+    passwordTouched:false
   };
 
   handleEmailChange = (email: string) =>{
@@ -28,25 +35,74 @@ class LoginScreen extends React.Component<{ }, State> {
     console.log("Login button pressed");
   };
 
+  handleEmailSubmitPress = () => {
+    if (this.passwordInputRef.current){
+      this.passwordInputRef.current.focus();
+    }
+  };
+
+  handleEmailBlur = () => {
+    this.setState({emailTouched:true});
+  };
+
+  handlePasswordBlur = () => {
+    this.setState({passwordTouched:true});
+  };
+
+
     render(){
+      const {
+        email,
+        password,
+        emailTouched,
+        passwordTouched
+      } = this.state;
+
+      const emailError =
+        !email && emailTouched
+          ? strings.EMAIL_REQUIERED
+          : undefined;
+      const passwordError = 
+        !password && passwordTouched
+          ? strings.PASSWORD_REQUIERED
+          : undefined;
     return (
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior="padding"
+      >
       <View style={styles.container}>
           <Image source={require('../assets/images/Nevus_logo.png')}  
           style={ styles.logo} />
         <View style={styles.form}>
           <FormTextInput
-            value = {this.state.password}
+            value = {this.state.email}
             onChangeText={this.handleEmailChange}
             placeholder={strings.EMAIL_PLACEHOLDER}
+            onSubmitEditing={this.handleEmailSubmitPress}
+            autoCorrect={false}
+            keyboardType="email-address"
+            returnKeyType="next"
+            onBlur={this.handleEmailBlur}
+            error={emailError}
+            blurOnSubmit={constants.IS_IOS}
           />
           <FormTextInput
+            ref={this.passwordInputRef}
             value = {this.state.password}
             onChangeText={this.handlePasswordChange}
             placeholder={strings.PASSWORD_PLACEHOLDER}
+            secureTextEntry={true}
+            returnKeyType="done"
+            onBlur={this.handlePasswordBlur}
+            error={passwordError}
           />
-          <Button label={strings.LOGIN} onPress={this.handleLoginPress}/>
+          <Button label={strings.LOGIN} onPress={this.handleLoginPress}
+          disabled={!email||!password}
+          />
         </View>
       </View>
+      </KeyboardAvoidingView>
     );
     }
   }
