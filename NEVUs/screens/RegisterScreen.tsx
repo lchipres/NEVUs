@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Image,KeyboardAvoidingView } from "react-native";
+import { StyleSheet, View, Image,KeyboardAvoidingView, Text } from "react-native";
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 import strings from "../config/strings";
@@ -11,6 +11,7 @@ interface State {
     confirmPassword:string;
     emailTouched: boolean;
     passwordTouched: boolean;
+    passwordConfTouched: boolean;
   }
 
 class RegisterScreen extends React.Component<{},State>{
@@ -22,6 +23,7 @@ class RegisterScreen extends React.Component<{},State>{
     password:"",
     emailTouched:false,
     passwordTouched:false,
+    passwordConfTouched:false,
     confirmPassword:""
   };
 
@@ -53,6 +55,7 @@ class RegisterScreen extends React.Component<{},State>{
       }
   };
 
+
   handleEmailBlur = () => {
     this.setState({emailTouched:true});
   };
@@ -61,13 +64,19 @@ class RegisterScreen extends React.Component<{},State>{
     this.setState({passwordTouched:true});
   };
 
+  handlePasswordConfBlur = () => {
+    this.setState({passwordConfTouched:true});
+  };
+
 
     render(){
       const {
         email,
         password,
+        confirmPassword,
         emailTouched,
-        passwordTouched
+        passwordTouched,
+        passwordConfTouched
       } = this.state;
 
       const emailError =
@@ -78,15 +87,21 @@ class RegisterScreen extends React.Component<{},State>{
         !password && passwordTouched
           ? strings.PASSWORD_REQUIERED
           : undefined;
+      const passwordConfError =
+        !confirmPassword && passwordConfTouched
+          ? strings.PASSWORD_MATCH_REQUIERED
+          :undefined;
+
     return (
       <KeyboardAvoidingView
         style={styles.container}
         behavior="padding"
       >
       <View style={styles.container}>
-          <Image source={require('../assets/images/Nevus_logo.png')}  
+          <Image source={require('../assets/images/register_logo.png')}  
           style={ styles.logo} />
         <View style={styles.form}>
+          <Text>Correo:</Text>
           <FormTextInput
             value = {this.state.email}
             onChangeText={this.handleEmailChange}
@@ -99,28 +114,33 @@ class RegisterScreen extends React.Component<{},State>{
             error={emailError}
             blurOnSubmit={constants.IS_IOS}
           />
+          <Text>Contraseña:</Text>
           <FormTextInput
             ref={this.passwordInputRef}
             value = {this.state.password}
             onChangeText={this.handlePasswordChange}
             placeholder={strings.PASSWORD_PLACEHOLDER}
+            onSubmitEditing={this.handlePasswordSubmitPress}
             secureTextEntry={true}
             returnKeyType="next"
             onBlur={this.handlePasswordBlur}
             error={passwordError}
+            blurOnSubmit={constants.IS_IOS}
           />
+          <Text>Confirme su Contraseña:</Text>
           <FormTextInput
             ref={this.passwordConRef}
-            value = {this.state.password}
-            onChangeText={this.handlePasswordChange}
+            value = {this.state.confirmPassword}
+            onChangeText={this.handlePasswordConChange}
             placeholder={strings.PASSWORD_PLACEHOLDER}
             secureTextEntry={true}
             returnKeyType="done"
-            onBlur={this.handlePasswordBlur}
-            error={passwordError}
+            onBlur={this.handlePasswordConfBlur}
+            error={passwordConfError}
+            blurOnSubmit={constants.IS_IOS}
           />
           <Button label={strings.REGISTER} onPress={this.handleRegisterPress}
-          disabled={!email||!password||!this.passwordConRef}
+          disabled={!email||!password||!confirmPassword}
           />
         </View>
       </View>
@@ -148,6 +168,11 @@ class RegisterScreen extends React.Component<{},State>{
       alignSelf:"center",
       justifyContent:"center",
       width:"80%"
+    },
+    title:{
+      alignSelf:"center",
+      
     }
   });
-}
+
+export default RegisterScreen;
