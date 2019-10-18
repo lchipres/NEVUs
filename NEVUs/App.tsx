@@ -1,3 +1,3 @@
-import RegisterScreen from "./screens/RegisterScreen";
+import LoginScreen from "./screens/LoginScreen";
 
-export default RegisterScreen;
+export default LoginScreen;
