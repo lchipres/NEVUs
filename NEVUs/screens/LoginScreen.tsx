@@ -12,9 +12,9 @@ interface State {
 }
 
 class LoginScreen extends React.Component<{ }, State> {
-  
+
   passwordInputRef= React.createRef<FormTextInput>();
-  
+
   readonly state: State = {
     email: "",
     password:"",
@@ -69,7 +69,7 @@ class LoginScreen extends React.Component<{ }, State> {
       behavior="padding"
       >
       <View style={styles.container}>
-          <Image source={require('../assets/images/Nevus_logo.png')}  
+          <Image source={require('../assets/images/nevus_logo_2.png')}  
           style={ styles.logo} />
         <View style={styles.form}>
           <FormTextInput
@@ -93,7 +93,7 @@ class LoginScreen extends React.Component<{ }, State> {
             onBlur={this.handlePasswordBlur}
             error={passwordError}
           />
-          <Button label={strings.LOGIN} 
+          <Button label={strings.LOGIN}
             onPress={this.handleLoginPress}
             disabled={!email || !password}
           />
@@ -103,7 +103,7 @@ class LoginScreen extends React.Component<{ }, State> {
     );
     }
   }
-  
+
   const styles = StyleSheet.create({
     container:{
       flex: 1,
