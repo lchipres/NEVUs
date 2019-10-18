@@ -3,16 +3,39 @@ import { StyleSheet, Text, View, ImageBackground, Image,KeyboardAvoidingView, Ke
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 import strings from "../config/strings";
+import RegisterScreen from "../screens/RegisterScreen";
+import keys from "../config/keys";
+// Firebase App (the core Firebase SDK) is always required and
+// must be listed before other Firebase SDKs
+import * as firebase from "firebase/app";
+
+// Add the Firebase services that you want to use
+import "firebase/auth";
+import "firebase/firestore";
+
+
+// Firebase App (the core Firebase SDK) is always required and
+// must be listed before other Firebase SDKs
+
+// Add the Firebase products that you want to use
+require("firebase/auth");
+require("firebase/firestore");
+
+var firebaseConfig = {
+  keys
+};
+
+firebase.initializeApp(firebaseConfig);
 
 interface State {
   email: string;
-  password: String;
+  password: string;
   emailTouched: boolean;
   passwordTouched: boolean;
 }
 
 class LoginScreen extends React.Component<{ }, State> {
-
+  
   passwordInputRef= React.createRef<FormTextInput>();
 
   readonly state: State = {
@@ -45,6 +68,7 @@ class LoginScreen extends React.Component<{ }, State> {
   }
   handleLoginPress = () => {
     console.log("Login button pressed");
+    export * from RegisterScreen;
   };
 
     render(){

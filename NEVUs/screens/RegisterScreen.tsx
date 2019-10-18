@@ -98,7 +98,7 @@ class RegisterScreen extends React.Component<{},State>{
         behavior="padding"
       >
       <View style={styles.container}>
-          <Image source={require('../assets/images/register_logo.png')}  
+          <Image source={require('../assets/images/register.png')}  
           style={ styles.logo} />
         <View style={styles.form}>
           <Text>Correo:</Text>
