@@ -159,7 +159,7 @@ class RegisterScreen extends React.Component<Props,State>{
     );
     }
   }
-  
+   // Edite algunos estilos -SztyLe
   const styles = StyleSheet.create({
     container:{
       zIndex: 0,
