@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import { StyleSheet, View, Image,KeyboardAvoidingView, Text } from "react-native";
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
@@ -14,11 +14,15 @@ interface State {
     passwordConfTouched: boolean;
   }
 
-class RegisterScreen extends React.Component<{},State>{
+interface Props{
+  navigation:any
+}
+
+class RegisterScreen extends React.Component<Props,State>{
     passwordInputRef= React.createRef<FormTextInput>();
     passwordConRef= React.createRef<FormTextInput>();
   
-  readonly state: State = {
+  state: State = {
     email: "",
     password:"",
     emailTouched:false,
@@ -40,8 +44,9 @@ class RegisterScreen extends React.Component<{},State>{
   };
 
   handleRegisterPress = () => {
+    this.props.navigation.navigate('Login');
     console.log("Register button pressed");
-  };
+    };
 
   handleEmailSubmitPress = () => {
     if (this.passwordInputRef.current){
@@ -79,6 +84,8 @@ class RegisterScreen extends React.Component<{},State>{
         passwordConfTouched
       } = this.state;
 
+      const {navigate} = this.props.navigation;
+
       const emailError =
         !email && emailTouched
           ? strings.EMAIL_REQUIERED
@@ -98,8 +105,11 @@ class RegisterScreen extends React.Component<{},State>{
         behavior="padding"
       >
       <View style={styles.container}>
-          <Image source={require('../assets/images/register_logo.png')}  
-          style={ styles.logo} />
+        <View style = {styles.logoContainer}>
+          <Image 
+          source={require('../assets/images/registrate.png')}  
+          style={styles.logo} />
+        </View>
         <View style={styles.form}>
           <Text>Correo:</Text>
           <FormTextInput
@@ -139,8 +149,9 @@ class RegisterScreen extends React.Component<{},State>{
             error={passwordConfError}
             blurOnSubmit={constants.IS_IOS}
           />
-          <Button label={strings.REGISTER} onPress={this.handleRegisterPress}
+          <Button label={strings.REGISTER} onPress={() => navigate('Login')}
           disabled={!email||!password||!confirmPassword}
+          
           />
         </View>
       </View>
@@ -151,27 +162,47 @@ class RegisterScreen extends React.Component<{},State>{
   
   const styles = StyleSheet.create({
     container:{
+      zIndex: 0,
       flex: 1,
-      width:"100%",
-      height:"100%",
-      alignItems: "center",
-      justifyContent: "space-between"
+      padding: 15,
+      display: "flex",
+      backgroundColor: '#b33939'
+    },
+    logoContainer: {
+      alignItems: 'center',
+      flexGrow: 1,
+      justifyContent: 'center',
+      zIndex: 1,
+      
     },
     logo: {
-      flex:1,
-      width:"100%",
-      resizeMode:"contain",
-      alignSelf:"center"
+      // flex: 1,
+       width:"100%",
+       height: '27.5%',
+       top: '-30%',
+       zIndex: 1,
+       borderRadius: 50
+      // bottom: '-5%',
+      // alignSelf:"center",
+      // justifyContent: 'flex-start',
+      // resizeMode: 'contain',
+      // display: 'flex',
+      
     },
     form: {
       flex:1,
       alignSelf:"center",
       justifyContent:"center",
-      width:"80%"
+      width:"95%",
+      display: "flex",
+      top: '-8%'
+      
     },
     title:{
       alignSelf:"center",
-      
+    },
+    btn: {
+      bottom: '5%'
     }
   });
 
