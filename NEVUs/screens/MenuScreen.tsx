@@ -1,20 +1,27 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
-
-import NavigationBar from "react-native-navigation-bar";
+import {Platform, Text, View, StyleSheet} from "react-native";
 
 export default class Example extends Component {
   render() {
     return (
-      <View>
-        <NavigationBar 
-          title='Main title'
-          height={50}
-          leftButtonTitle='back'
-          rightButtonTitle='forward'
-        />
-        <Text>ABC</Text>
+      <View style = {style.container}>
+      <Text>Hoes mad as fuck boi</Text>
       </View>
     );
   }
 }
+
+
+const style = StyleSheet.create({
+  container:{
+    flex:1,
+    width:null,
+    height:null,
+    backgroundColor: '#e9f1f7ff',
+    alignItems: 'center',
+    marginTop:Platform.select({
+      ios:90,
+      android:50
+    }),
+  }
+})
