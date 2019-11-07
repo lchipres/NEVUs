@@ -6,7 +6,7 @@ import {createAppContainer} from 'react-navigation';
 const navigator = createStackNavigator(
     {
         Login: LoginScreen,
-        screen: RegisterScreen
+        Register: RegisterScreen
     },
     {
         initialRouteName: 'Login',

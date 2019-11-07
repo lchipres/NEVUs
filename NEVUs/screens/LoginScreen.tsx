@@ -36,6 +36,7 @@ interface State {
   password: string;
   emailTouched: boolean;
   passwordTouched: boolean;
+  logged: boolean;
 }
 
 interface Props{
@@ -49,7 +50,8 @@ class LoginScreen extends React.Component<Props, State> {
     email: "",
     password: "",
     emailTouched: false,
-    passwordTouched: false
+    passwordTouched: false,
+    logged: false
   };
 
   handleEmailChange = (email: string) => {
@@ -73,16 +75,26 @@ class LoginScreen extends React.Component<Props, State> {
   handlePasswordBlur = () => {
     this.setState({ passwordTouched: true });
   };
-  handleLoginPress = (email:string, password:string) => {
+  handleLoginPress = function( email:string, password:string ) {
     firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(function(result) {
-      this.props.navigation.navigate('Login');
-      alert("TU COLA")
-    // result.user.tenantId should be ‘TENANT_PROJECT_ID’.
+    .then(function() {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          alert("Logueado correctamente")
+          return true;
+          // User is signed in.
+        }
+      });
+
     }).catch(function(error) {
       var errorCode = error.code;
       var errorMessage = error.message;
-
+      if (errorCode == 'auth/invalid-email') {
+        alert('No hay usuario');
+      } else {
+        alert(errorMessage);
+      }
+  console.log(error);
     // Handle error.
     });
   };
@@ -129,7 +141,10 @@ class LoginScreen extends React.Component<Props, State> {
             />
             <Button
               label={strings.LOGIN}
-              onPress={()=>{this.handleLoginPress(email,password)}}
+              onPress={()=> {
+                if(this.handleLoginPress(email,password)!==null){
+                  this.props.navigation.navigate('Register')
+                }}}
               disabled={!email || !password}
             />
           </View>
