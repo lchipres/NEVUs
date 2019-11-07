@@ -11,7 +11,7 @@ import {
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 import strings from "../config/strings";
-import RegisterScreen from "../screens/RegisterScreen";
+
 import keys from "../config/keys";
 // Firebase App (the core Firebase SDK) is always required and
 // must be listed before other Firebase SDKs
@@ -28,11 +28,8 @@ import "firebase/firestore";
 require("firebase/auth");
 require("firebase/firestore");
 
-var firebaseConfig = {
-  keys
-};
 
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(keys);
 
 interface State {
   email: string;
@@ -41,7 +38,11 @@ interface State {
   passwordTouched: boolean;
 }
 
-class LoginScreen extends React.Component<{}, State> {
+interface Props{
+  navigation:any
+}
+
+class LoginScreen extends React.Component<Props, State> {
   passwordInputRef = React.createRef<FormTextInput>();
 
   readonly state: State = {
@@ -72,18 +73,30 @@ class LoginScreen extends React.Component<{}, State> {
   handlePasswordBlur = () => {
     this.setState({ passwordTouched: true });
   };
-  handleLoginPress = () => {
-    console.log("Login button pressed");
+  handleLoginPress = (email:string, password:string) => {
+    firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(function(result) {
+      this.props.navigation.navigate('Login');
+      alert("TU COLA")
+    // result.user.tenantId should be ‘TENANT_PROJECT_ID’.
+    }).catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+
+    // Handle error.
+    });
   };
 
   render() {
     const { email, password, emailTouched, passwordTouched } = this.state;
 
+    const {navigate} = this.props.navigation;
      
     const emailError =
       !email && emailTouched ? strings.EMAIL_REQUIERED : undefined;
     const passwordError =
       !password && passwordTouched ? strings.PASSWORD_REQUIERED : undefined;
+
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <View style={styles.container}>
@@ -93,6 +106,7 @@ class LoginScreen extends React.Component<{}, State> {
           />
           <View style={styles.form}>
             <FormTextInput
+            
               value={this.state.email}
               onChangeText={this.handleEmailChange}
               placeholder={strings.EMAIL_PLACEHOLDER}
@@ -115,7 +129,7 @@ class LoginScreen extends React.Component<{}, State> {
             />
             <Button
               label={strings.LOGIN}
-              onPress={this.handleLoginPress}
+              onPress={()=>{this.handleLoginPress(email,password)}}
               disabled={!email || !password}
             />
           </View>

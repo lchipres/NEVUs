@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 import strings from "../config/strings";
 import constants from "../config/constants";
+import firebase from 'firebase';
 
 interface State {
     email: string;
@@ -16,9 +17,10 @@ interface State {
 
 interface Props{
   navigation:any
-}
+}//Navegacion
 
 class RegisterScreen extends React.Component<Props,State>{
+    emailRef = React.createRef<FormTextInput>();
     passwordInputRef= React.createRef<FormTextInput>();
     passwordConRef= React.createRef<FormTextInput>();
   
@@ -44,13 +46,12 @@ class RegisterScreen extends React.Component<Props,State>{
   };
 
   handleRegisterPress = () => {
-    this.props.navigation.navigate('Login');
-    console.log("Register button pressed");
+    this.props.navigation.navigate('Login')//Se dirige a la referencia
     };
 
   handleEmailSubmitPress = () => {
-    if (this.passwordInputRef.current){
-      this.passwordInputRef.current.focus();
+    if (this.emailRef.current){
+      this.emailRef.current.focus();
     }
   };
 
@@ -84,7 +85,7 @@ class RegisterScreen extends React.Component<Props,State>{
         passwordConfTouched
       } = this.state;
 
-      const {navigate} = this.props.navigation;
+      const {navigate} = this.props.navigation;//Se encarga de la navegacion 
 
       const emailError =
         !email && emailTouched
@@ -105,14 +106,17 @@ class RegisterScreen extends React.Component<Props,State>{
         behavior="padding"
       >
       <View style={styles.container}>
-        <View style = {styles.logoContainer}>
+        <View style = {styles.logo}>
           <Image 
           source={require('../assets/images/registrate.png')}  
           style={styles.logo} />
         </View>
         <View style={styles.form}>
+
           <Text>Correo:</Text>
+
           <FormTextInput
+            ref = {this.emailRef}
             value = {this.state.email}
             onChangeText={this.handleEmailChange}
             placeholder={strings.EMAIL_PLACEHOLDER}
@@ -125,6 +129,7 @@ class RegisterScreen extends React.Component<Props,State>{
             blurOnSubmit={constants.IS_IOS}
           />
           <Text>Contraseña:</Text>
+
           <FormTextInput
             ref={this.passwordInputRef}
             value = {this.state.password}
@@ -137,7 +142,9 @@ class RegisterScreen extends React.Component<Props,State>{
             error={passwordError}
             blurOnSubmit={constants.IS_IOS}
           />
+
           <Text>Confirme su Contraseña:</Text>
+
           <FormTextInput
             ref={this.passwordConRef}
             value = {this.state.confirmPassword}
@@ -149,9 +156,9 @@ class RegisterScreen extends React.Component<Props,State>{
             error={passwordConfError}
             blurOnSubmit={constants.IS_IOS}
           />
+
           <Button label={strings.REGISTER} onPress={() => navigate('Login')}
           disabled={!email||!password||!confirmPassword}
-          
           />
         </View>
       </View>
@@ -161,49 +168,25 @@ class RegisterScreen extends React.Component<Props,State>{
   }
    // Edite algunos estilos -SztyLe
   const styles = StyleSheet.create({
-    container:{
-      zIndex: 0,
-      flex: 1,
-      padding: 15,
-      display: "flex",
-      backgroundColor: '#b33939'
-    },
-    logoContainer: {
-      alignItems: 'center',
-      flexGrow: 1,
-      justifyContent: 'center',
-      zIndex: 1,
-      
-    },
-    logo: {
-      // flex: 1,
-       width:"100%",
-       height: '27.5%',
-       top: '-30%',
-       zIndex: 1,
-       borderRadius: 50
-      // bottom: '-5%',
-      // alignSelf:"center",
-      // justifyContent: 'flex-start',
-      // resizeMode: 'contain',
-      // display: 'flex',
-      
-    },
-    form: {
-      flex:1,
-      alignSelf:"center",
-      justifyContent:"center",
-      width:"95%",
-      display: "flex",
-      top: '-8%'
-      
-    },
-    title:{
-      alignSelf:"center",
-    },
-    btn: {
-      bottom: '5%'
-    }
+      container: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  logo: {
+    flex: 1,
+    width: "100%",
+    resizeMode: "contain",
+    alignSelf: "center"
+  },
+  form: {
+    flex: 1,
+    alignSelf: "center",
+    justifyContent: "center",
+    width: "80%"
+  }
   });
 
 export default RegisterScreen;
