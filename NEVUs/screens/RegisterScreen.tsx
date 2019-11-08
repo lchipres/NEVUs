@@ -4,7 +4,9 @@ import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 import strings from "../config/strings";
 import constants from "../config/constants";
+import { string } from 'prop-types';
 import firebase from 'firebase';
+
 
 interface State {
     email: string;
@@ -13,6 +15,7 @@ interface State {
     emailTouched: boolean;
     passwordTouched: boolean;
     passwordConfTouched: boolean;
+    registrado:boolean
   }
 
 interface Props{
@@ -30,7 +33,8 @@ class RegisterScreen extends React.Component<Props,State>{
     emailTouched:false,
     passwordTouched:false,
     passwordConfTouched:false,
-    confirmPassword:""
+    confirmPassword:"",
+    registrado:false
   };
 
   handleEmailChange = (email: string) =>{
@@ -45,9 +49,27 @@ class RegisterScreen extends React.Component<Props,State>{
     this.setState({confirmPassword:confirmPassword})
   };
 
-  handleRegisterPress = () => {
-    this.props.navigation.navigate('Login')//Se dirige a la referencia
-    };
+  handleRegisterPress = (email: string, password: string) => {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(function() {
+      alert("Registrado correctamente")
+      return true;
+    }).catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      if (errorCode == 'auth/email-already-in-use') {
+        alert('Ya existe una cuenta asociada a este correo');
+      }
+      if (errorCode == 'auth/invalid-email') {
+        alert('Escriba un correo valido');
+      }
+      else {
+        alert(errorMessage);
+      }
+  console.log(error);
+    // Handle error.
+    });
+  };
 
   handleEmailSubmitPress = () => {
     if (this.emailRef.current){
@@ -157,7 +179,10 @@ class RegisterScreen extends React.Component<Props,State>{
             blurOnSubmit={constants.IS_IOS}
           />
 
-          <Button label={strings.REGISTER} onPress={() => navigate('Login')}
+          <Button label={strings.REGISTER} onPress={() => {
+                if(this.handleRegisterPress(email,password)!==null){
+                  this.props.navigation.navigate('Login')
+                }}}
           disabled={!email||!password||!confirmPassword}
           />
         </View>
