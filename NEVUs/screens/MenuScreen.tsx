@@ -15,8 +15,6 @@ export default class Example extends Component {
 const style = StyleSheet.create({
   container:{
     flex:1,
-    width:null,
-    height:null,
     backgroundColor: '#e9f1f7ff',
     alignItems: 'center',
     fontFamily:Platform.select({

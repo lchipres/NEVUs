@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, View, Image,KeyboardAvoidingView, Text } from "react-native";
 import Button from "../components/Button";
-import FormTextInput from "../components/FormTextInput";
+import FormTextInput from "../components/forms/FormTextInput";
 import strings from "../config/strings";
 import constants from "../config/constants";
 import { string } from 'prop-types';

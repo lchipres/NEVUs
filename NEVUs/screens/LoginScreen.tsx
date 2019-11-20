@@ -1,15 +1,12 @@
 import * as React from "react";
 import {
   StyleSheet,
-  Text,
   View,
-  ImageBackground,
   Image,
   KeyboardAvoidingView,
-  KeyboardAvoidingViewComponent
 } from "react-native";
 import Button from "../components/Button";
-import FormTextInput from "../components/FormTextInput";
+import FormTextInput from "../components/forms/FormTextInput";
 import strings from "../config/strings";
 
 import keys from "../config/keys";
@@ -143,7 +140,7 @@ class LoginScreen extends React.Component<Props, State> {
               label={strings.LOGIN}
               onPress={()=> {
                 if(this.handleLoginPress(email,password)!==null){
-                  this.props.navigation.navigate('Register')
+                  this.props.navigation.navigate('Menu')
                 }}}
               disabled={!email || !password}
             />
