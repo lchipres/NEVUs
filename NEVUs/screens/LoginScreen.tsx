@@ -4,6 +4,7 @@ import {
   View,
   Image,
   KeyboardAvoidingView,
+  Text
 } from "react-native";
 import Button from "../components/Button";
 import FormTextInput from "../components/forms/FormTextInput";
@@ -110,9 +111,10 @@ class LoginScreen extends React.Component<Props, State> {
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <View style={styles.container}>
           <Image
-            source={require("../assets/images/nevus_logo_2.png")}
+            source={require("../assets/images/Nevus_logo_3.png")}
             style={styles.logo}
           />
+          <Text>¡Inicia sesión!</Text>
           <View style={styles.form}>
             <FormTextInput
             
@@ -125,6 +127,7 @@ class LoginScreen extends React.Component<Props, State> {
               returnKeyType="next"
               onBlur={this.handleEmailBlur}
               error={emailError}
+              autoCapitalize='none'
             />
             <FormTextInput
               ref={this.passwordInputRef}
@@ -144,6 +147,7 @@ class LoginScreen extends React.Component<Props, State> {
                 }}}
               disabled={!email || !password}
             />
+            <Text onPress={()=>this.props.navigation.navigate('Register')}>¿Aun no tienes cuenta? Registrate!</Text>
           </View>
         </View>
       </KeyboardAvoidingView>
