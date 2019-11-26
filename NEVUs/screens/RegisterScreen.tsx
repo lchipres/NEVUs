@@ -72,8 +72,8 @@ class RegisterScreen extends React.Component<Props,State>{
   };
 
   handleEmailSubmitPress = () => {
-    if (this.emailRef.current){
-      this.emailRef.current.focus();
+    if (this.passwordInputRef.current){
+      this.passwordInputRef.current.focus();
     }
   };
 
@@ -149,6 +149,7 @@ class RegisterScreen extends React.Component<Props,State>{
             onBlur={this.handleEmailBlur}
             error={emailError}
             blurOnSubmit={constants.IS_IOS}
+            leftIcon={{ type: 'font-awesome', name: 'envelope-square' }}
           />
           <Text>Contraseña:</Text>
 
@@ -163,6 +164,7 @@ class RegisterScreen extends React.Component<Props,State>{
             onBlur={this.handlePasswordBlur}
             error={passwordError}
             blurOnSubmit={constants.IS_IOS}
+            leftIcon={{ type: 'font-awesome', name: 'lock' }}
           />
 
           <Text>Confirme su Contraseña:</Text>
@@ -177,9 +179,10 @@ class RegisterScreen extends React.Component<Props,State>{
             onBlur={this.handlePasswordConfBlur}
             error={passwordConfError}
             blurOnSubmit={constants.IS_IOS}
+            leftIcon={{ type: 'font-awesome', name: 'lock' }}
           />
 
-          <Button label={strings.REGISTER} onPress={() => {
+          <Button style={styles.lab} label={strings.REGISTER} onPress={() => {
                 if(this.handleRegisterPress(email,password)!==null){
                   this.props.navigation.navigate('Login')
                 }}}
@@ -211,6 +214,9 @@ class RegisterScreen extends React.Component<Props,State>{
     alignSelf: "center",
     justifyContent: "center",
     width: "80%"
+  },
+  lab:{
+    
   }
   });
 

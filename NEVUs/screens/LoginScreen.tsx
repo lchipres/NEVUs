@@ -9,6 +9,7 @@ import {
 import Button from "../components/Button";
 import FormTextInput from "../components/forms/FormTextInput";
 import strings from "../config/strings";
+import colors from "../config/colors";
 
 import keys from "../config/keys";
 // Firebase App (the core Firebase SDK) is always required and
@@ -117,7 +118,6 @@ class LoginScreen extends React.Component<Props, State> {
           <Text>¡Inicia sesión!</Text>
           <View style={styles.form}>
             <FormTextInput
-            
               value={this.state.email}
               onChangeText={this.handleEmailChange}
               placeholder={strings.EMAIL_PLACEHOLDER}
@@ -128,6 +128,7 @@ class LoginScreen extends React.Component<Props, State> {
               onBlur={this.handleEmailBlur}
               error={emailError}
               autoCapitalize='none'
+              leftIcon={{ type: 'font-awesome', name: 'envelope-square' }}
             />
             <FormTextInput
               ref={this.passwordInputRef}
@@ -138,6 +139,7 @@ class LoginScreen extends React.Component<Props, State> {
               returnKeyType="done"
               onBlur={this.handlePasswordBlur}
               error={passwordError}
+              leftIcon={{ type: 'font-awesome', name: 'lock' }}
             />
             <Button
               label={strings.LOGIN}
@@ -147,13 +149,13 @@ class LoginScreen extends React.Component<Props, State> {
                 }}}
               disabled={!email || !password}
             />
-            <Text onPress={()=>this.props.navigation.navigate('Register')}>¿Aun no tienes cuenta? Registrate!</Text>
+            <Text style={styles.lab} onPress={()=>this.props.navigation.navigate('Register')}>¿Aun no tienes cuenta? Registrate!</Text>
           </View>
         </View>
       </KeyboardAvoidingView>
     );
   }
-}
+}//Ignorar los warnings de los FormTextInput
 
 const styles = StyleSheet.create({
   container: {
@@ -174,6 +176,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     width: "80%"
+  },
+  lab:{
+    color:colors.DODGER_BLUE
   }
 });
 

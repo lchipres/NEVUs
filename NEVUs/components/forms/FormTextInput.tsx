@@ -1,15 +1,17 @@
 import * as React from "react";
-import { StyleSheet, TextInput,TextInputProps ,View ,Text} from "react-native";
+import { StyleSheet,TextInputProps ,View ,Text} from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Input } from 'react-native-elements';
 import colors from "../../config/colors";
 import { string } from "prop-types";
 
-type Props = TextInputProps & {
+type Props = TextInputProps & Input &{
     error?: string;
 };
 
 class FormTextInput extends React.Component<Props>{
 
-    textInputRef= React.createRef<TextInput>();
+    textInputRef= React.createRef<Input>();
 
     focus = () =>{
         if(this.textInputRef.current){
@@ -20,7 +22,7 @@ class FormTextInput extends React.Component<Props>{
         const {error,style, ...otherProps } = this.props;
         return(
             <View style={[styles.container,style]}>
-            <TextInput
+            <Input
                 ref={this.textInputRef}
                 selectionColor={colors.DODGER_BLUE}
                 style={[styles.textInput, style]}
